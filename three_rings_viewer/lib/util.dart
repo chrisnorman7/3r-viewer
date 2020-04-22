@@ -12,11 +12,15 @@ void pushRoute(BuildContext context, Widget route) {
       MaterialPageRoute<void>(builder: (BuildContext context) => route));
 }
 
+Map<String, String> getHeaders() {
+  return <String, String>{
+    'Authorization': 'APIKEY ${settings.apiKey}',
+  };
+}
+
 Future<http.Response> getJson(String url) {
   return http.get(
     url,
-    headers: <String, String>{
-      'Authorization': 'APIKEY ${settings.apiKey}'
-      }
-    );
+    headers: getHeaders(),
+  );
 }

@@ -9,9 +9,9 @@ import 'api_key_form.dart';
 import 'constants.dart';
 import 'settings.dart';
 import 'shift.dart';
-import 'shift_view.dart';
 import 'util.dart';
 import 'volunteer.dart';
+import 'volunteers_view.dart';
 
 Future<void> main() async {
   final File apiKeyFile = File(apiKeyFilename);
@@ -37,9 +37,11 @@ class HomePage extends StatefulWidget {
 class HomepageState extends State<HomePage> {
   List<Shift> _shifts;
   String _error;
+  bool loadingVolunteers;
 
   @override
   Widget build(BuildContext context) {
+    loadingVolunteers ??= false;
     Widget child;
     if (_shifts == null) {
       child = const Text('Tap the refresh button to load shifts.');
@@ -53,7 +55,10 @@ class HomepageState extends State<HomePage> {
           return ListTile(
             title: Text(shift.name),
             subtitle: Text('(${shift.startString}-${shift.endString})'),
-            onTap: () => pushRoute(context, ShiftView(shift: shift))
+            onTap: () => pushRoute(context, VolunteersView(
+              name: shift.name,
+              volunteers: shift.volunteers
+            ))
           );
         }
       );
@@ -63,15 +68,24 @@ class HomepageState extends State<HomePage> {
         title: const Text('3 Rings Viewer'),
         actions: <Widget>[
           FloatingActionButton(
-            child: Icon(Icons.settings),
-            tooltip: 'Enter API Key',
-            onPressed: () => pushRoute(context, ApiKeyForm(refresh))
+            heroTag: 'Volunteers Button',
+            child: Icon(Icons.contacts),
+            tooltip: 'Volunteers',
+            onPressed: () {
+              loadVolunteers(context);
+            },
           ),
           FloatingActionButton(
-            heroTag: 'Refresh',
+            heroTag: 'Refresh Button',
             child: Icon(Icons.refresh),
             tooltip: 'Refresh',
             onPressed: () => refresh()
+          ),
+          FloatingActionButton(
+            heroTag: 'API Key Button',
+            child: Icon(Icons.settings),
+            tooltip: 'Enter API Key',
+            onPressed: () => pushRoute(context, ApiKeyForm(refresh))
           ),
         ]
       ),
@@ -169,5 +183,41 @@ class HomepageState extends State<HomePage> {
       }
     }
     setState(() => null);
+  }
+
+  Future<void> loadVolunteers(BuildContext context) async {
+    if (loadingVolunteers) {
+      return;
+    }
+    loadingVolunteers = true;
+    final http.Response r = await getJson('$baseUrl/directory.json');
+    final List<Volunteer> volunteers = <Volunteer>[];
+    loadingVolunteers = false;
+    if (r.statusCode != 200) {
+      pushRoute(
+        context, VolunteersView(
+          name: 'Loading volunteers failed: ${r.statusCode}',
+          volunteers: volunteers,
+        )
+      );
+      return;
+    }
+    final dynamic volunteersData = jsonDecode(r.body)['volunteers'];
+    for (final dynamic data in volunteersData) {
+      final int volunteerId = data['id'] as int;
+      final String volunteerName = data['name'] as String;
+      volunteers.add(
+        Volunteer(
+          id: volunteerId,
+          name: volunteerName
+        )
+      );
+    }
+    pushRoute(
+      context, VolunteersView(
+        name: 'All Volunteers',
+        volunteers: volunteers,
+      )
+    );
   }
 }

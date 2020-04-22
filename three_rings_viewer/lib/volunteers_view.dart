@@ -1,27 +1,37 @@
 import 'package:flutter/material.dart';
 
-import 'shift.dart';
+import 'constants.dart';
 import 'util.dart';
 import 'volunteer.dart';
 import 'volunteer_view.dart';
 
-class ShiftView extends StatelessWidget {
+class VolunteersView extends StatelessWidget {
   @override
-  const ShiftView({this.shift});
+  const VolunteersView(
+    {
+      this.name,
+      this.volunteers
+    }
+  );
 
-  final Shift shift;
+  final String name;
+  final List<Volunteer> volunteers;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(shift.toString())),
+      appBar: AppBar(title: Text(name)),
       body: Center(
         child: ListView.builder(
-          itemCount: shift.volunteers.length,
+          itemCount: volunteers.length,
           itemBuilder: (BuildContext context, int index) {
-            final Volunteer volunteer = shift.volunteers[index];
+            final Volunteer volunteer = volunteers[index];
             return ListTile(
               title: Text(volunteer.name),
+              subtitle: Image.network(
+                '$baseUrl/directory/${volunteer.id}/photos/thumb.jpg',
+                headers: getHeaders(),
+              ),
               onTap: () {
                 Navigator.pop(context);
                 pushRoute(context, VolunteerView(volunteer));

@@ -57,16 +57,21 @@ class VolunteerViewState extends State<VolunteerView> {
         itemBuilder: (BuildContext context, int index) {
           final VolunteerDetail detail = details[index];
           String url = detail.value.replaceAll(' ', '');
+          IconData icon;
           if (detail.type == 'EmailProperty') {
             url = 'mailto:$url';
+            icon = Icons.contact_mail;
           } else if (detail.type == 'TelProperty') {
             url = 'tel:$url';
+            icon = Icons.contact_phone;
           } else {
             url = '$baseUrl/directory/${volunteer.id}';
+            icon = Icons.contacts;
           }
           return ListTile(
             title: Text(detail.name),
             subtitle: Text(detail.value),
+            trailing: Icon(icon),
             onTap: () => launch(url),
           );
         },
