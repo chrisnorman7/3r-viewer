@@ -61,7 +61,7 @@ class ShiftsViewState extends State<ShiftsView> {
     final Map<String, CallbackType> menuItems = <String, CallbackType>{
       'Refresh': refreshButton.onPressed,
       'View All Volunteers': () => loadVolunteers(context),
-      'Show ${stl == ShiftsToLoad.today ? "Relevant" : "Today\'s"} Shifts': () => setState(() {
+      'Show ${stl == ShiftsToLoad.today ? "Only Relevant" : "Today\'s"} Shifts': () => setState(() {
         refreshing = true;
         if (stl == ShiftsToLoad.today) {
           stl = ShiftsToLoad.relevant;
@@ -94,7 +94,7 @@ class ShiftsViewState extends State<ShiftsView> {
         itemBuilder: (BuildContext context, int index) {
           if (index == 0) {
             return Title(
-              child: Text('Showing ${stl == ShiftsToLoad.today ? "Today\'s" : "Relevant"} shifts'),
+              child: Text('Showing ${stl == ShiftsToLoad.today ? "today\'s" : "only relevant"} shifts'),
               color: Colors.green,
             );
           }
