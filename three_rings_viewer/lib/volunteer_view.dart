@@ -143,7 +143,7 @@ class VolunteerViewState extends State<VolunteerView> {
         } else if (detailType == DetailTypes.boolean) {
           detailValue = detailValue == '1' ? 'Yes' : 'No';
         }
-        if (<DetailTypes>[DetailTypes.phone, DetailTypes.email, DetailTypes.text].contains(detailType)) {
+        if (<DetailTypes>[DetailTypes.date, DetailTypes.phone, DetailTypes.email, DetailTypes.text].contains(detailType)) {
           details.add(
             VolunteerDetail(
               name: detailName,
