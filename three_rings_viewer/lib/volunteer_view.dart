@@ -8,6 +8,17 @@ import 'constants.dart';
 import 'util.dart';
 import 'volunteer.dart';
 
+enum DetailTypes {
+  email,
+  phone,
+  date,
+  string,
+  text,
+  select,
+  boolean,
+  unknown,
+}
+
 class VolunteerDetail {
   VolunteerDetail(
     {
@@ -17,7 +28,8 @@ class VolunteerDetail {
     }
   );
 
-  final String name, type, value;
+  final String name, value;
+  DetailTypes type;
 }
 
 class VolunteerView extends StatefulWidget {
@@ -58,10 +70,10 @@ class VolunteerViewState extends State<VolunteerView> {
           final VolunteerDetail detail = details[index];
           String url = detail.value.replaceAll(' ', '');
           IconData icon;
-          if (detail.type == 'EmailProperty') {
+          if (detail.type == DetailTypes.email) {
             url = 'mailto:$url';
             icon = Icons.contact_mail;
-          } else if (detail.type == 'TelProperty') {
+          } else if (detail.type == DetailTypes.phone) {
             url = 'tel:$url';
             icon = Icons.contact_phone;
           } else {
@@ -98,12 +110,45 @@ class VolunteerViewState extends State<VolunteerView> {
       final dynamic volunteerData = jsonDecode(r.body)['volunteer'];
       final dynamic volunteerProperties = volunteerData['volunteer_properties'];
       for (final dynamic entry in volunteerProperties) {
-        if (<String>['EmailProperty', 'TelProperty'].contains(entry['type'])) {
+        DetailTypes detailType;
+        switch(entry['type'] as String) {
+          case 'EmailProperty':
+            detailType = DetailTypes.email;
+            break;
+          case 'TelProperty':
+            detailType = DetailTypes.phone;
+            break;
+          case 'DateProperty':
+            detailType = DetailTypes.date;
+            break;
+          case 'TextProperty':
+            detailType = DetailTypes.text;
+            break;
+          case 'StringProperty':
+            detailType = DetailTypes.string;
+            break;
+          case 'SelectProperty':
+            detailType = DetailTypes.select;
+            break;
+          case 'BooleanProperty':
+            detailType = DetailTypes.boolean;
+            break;
+          default:
+            detailType = DetailTypes.unknown;
+        }
+        final String detailName = entry['name'] as String;
+        String detailValue = entry['value'] as String;
+        if (detailType == DetailTypes.date) {
+          detailValue = DateTime.parse(detailValue).toString();
+        } else if (detailType == DetailTypes.boolean) {
+          detailValue = detailValue == '1' ? 'Yes' : 'No';
+        }
+        if (<DetailTypes>[DetailTypes.phone, DetailTypes.email, DetailTypes.text].contains(detailType)) {
           details.add(
             VolunteerDetail(
-              name: entry['name'] as String,
-              type: entry['type'] as String,
-              value: entry['value'] as String,
+              name: detailName,
+              type: detailType,
+              value: detailValue,
             )
           );
         }
