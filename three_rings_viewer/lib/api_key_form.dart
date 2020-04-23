@@ -5,19 +5,12 @@ import 'constants.dart';
 import 'settings.dart';
 
 class ApiKeyForm extends StatefulWidget {
-  const ApiKeyForm(this.callback);
-
-  final void Function() callback;
-
   @override
-  ApiKeyFormState createState() => ApiKeyFormState(callback);
+  ApiKeyFormState createState() => ApiKeyFormState();
 }
 
 class ApiKeyFormState extends State<ApiKeyForm> {
-  ApiKeyFormState (this.callback);
-
   final TextEditingController apiTextController = TextEditingController(text: settings.apiKey);
-  final void Function() callback;
 
   @override
   void dispose() {
@@ -38,7 +31,6 @@ class ApiKeyFormState extends State<ApiKeyForm> {
                 settings.apiKey = apiKey;
                 final SharedPreferences prefs = await SharedPreferences.getInstance();
                 prefs.setString(apiKeyPreferenceName, apiKey);
-                callback();
                 Navigator.of(context).pop();
               }
             },
