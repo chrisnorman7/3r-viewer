@@ -65,9 +65,16 @@ class VolunteerViewState extends State<VolunteerView> {
       child = Text(_error);
     } else {
       child = ListView.builder(
-        itemCount: details.length,
+        itemCount: details.length + 1,
         itemBuilder: (BuildContext context, int index) {
-          final VolunteerDetail detail = details[index];
+          if (index == 0) {
+            return FloatingActionButton(
+              onPressed: () => launch('$baseUrl/directory/${volunteer.id}'),
+              child: Icon(Icons.contacts),
+              tooltip: 'Open in 3 Rings',
+            );
+          }
+          final VolunteerDetail detail = details[index - 1];
           String url = detail.value.replaceAll(' ', '');
           IconData icon;
           if (detail.type == DetailTypes.email) {
@@ -77,14 +84,14 @@ class VolunteerViewState extends State<VolunteerView> {
             url = 'tel:$url';
             icon = Icons.contact_phone;
           } else {
-            url = '$baseUrl/directory/${volunteer.id}';
+            url = null;
             icon = Icons.contacts;
           }
           return ListTile(
             title: Text(detail.name),
             subtitle: Text(detail.value),
             trailing: Icon(icon),
-            onTap: () => launch(url),
+            onTap: url == null? null : () => launch(url),
           );
         },
       );
