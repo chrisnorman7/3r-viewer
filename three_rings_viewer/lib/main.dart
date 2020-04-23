@@ -25,7 +25,7 @@ Future<void> main() async {
   return runApp(
     MaterialApp(
       title: appTitle,
-      home: const ShiftsView(ShiftsToLoad.today)
+      home: const ShiftsView(ShiftsToLoad.relevant)
     )
   );
 }
