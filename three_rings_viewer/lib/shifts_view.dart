@@ -165,8 +165,7 @@ class ShiftsViewState extends State<ShiftsView> {
         final List<Shift> currentShifts = <Shift>[];
         List<Shift> allDayShifts = <Shift>[], previousShifts = <Shift>[], nextShifts = <Shift>[];
         for (final dynamic shiftData in shifts) {
-          DateTime shiftStart = DateTime.tryParse(shiftData['start_datetime'] as String);
-          shiftStart = DateTime(shiftStart.year, shiftStart.month, shiftStart.day, shiftStart.hour, shiftStart.minute, shiftStart.second);
+          final DateTime shiftStart = DateTime.tryParse(shiftData['start_datetime'] as String);
           final int duration = shiftData['duration'] as int;
           if (shiftStart == null || duration == null) {
             continue;
