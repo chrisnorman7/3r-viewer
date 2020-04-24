@@ -7,7 +7,7 @@
          FlutterApplication and put your custom class here. -->
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="3 Rings Viewer"
+        android:label="Three Rings Viewer"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
