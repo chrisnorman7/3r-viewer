@@ -145,11 +145,10 @@ class ShiftsViewState extends State<ShiftsView> {
   Future<void> refresh() async {
     final DateTime now = DateTime.now();
     String url = '$baseUrl/shift.json';
-    if (stl == ShiftsToLoad.today) {
-      final DateTime startDate = now.subtract(const Duration(days:1));
-      final DateTime endDate = now.add(const Duration(days:1));
-      url = '$url?start_date=${getTimestamp(startDate)}&end_date=${getTimestamp(endDate)}';
-    }
+    final DateTime startDate = now.subtract(const Duration(days:1));
+    url = '$url?start_date=${getTimestamp(startDate)}';
+    final DateTime endDate = now.add(const Duration(days:1));
+    url = '$url&end_date=${getTimestamp(endDate)}';
     http.Response r;
     _shifts = <Shift>[];
     _error = null;
@@ -166,7 +165,8 @@ class ShiftsViewState extends State<ShiftsView> {
         final List<Shift> currentShifts = <Shift>[];
         List<Shift> allDayShifts = <Shift>[], previousShifts = <Shift>[], nextShifts = <Shift>[];
         for (final dynamic shiftData in shifts) {
-          final DateTime shiftStart = DateTime.tryParse(shiftData['start_datetime'] as String);
+          DateTime shiftStart = DateTime.tryParse(shiftData['start_datetime'] as String);
+          shiftStart = DateTime(shiftStart.year, shiftStart.month, shiftStart.day, shiftStart.hour, shiftStart.minute, shiftStart.second);
           final int duration = shiftData['duration'] as int;
           if (shiftStart == null || duration == null) {
             continue;
