@@ -146,7 +146,12 @@ class VolunteerViewState extends State<VolunteerView> {
         final String detailName = entry['name'] as String;
         String detailValue = entry['value'] as String;
         if (detailType == DetailTypes.date) {
-          detailValue = DateTime.parse(detailValue).toString();
+          final DateTime date = DateTime.tryParse(detailValue);
+          if (date == null) {
+            detailValue = '!! Error while formatting DateTime !!';
+          } else {
+            detailValue = date.toString();
+          }
         } else if (detailType == DetailTypes.boolean) {
           detailValue = detailValue == '1' ? 'Yes' : 'No';
         }
