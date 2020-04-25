@@ -6,7 +6,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'constants.dart';
 import 'loading_page.dart';
 import 'settings.dart';
-import 'shifts_view.dart';
+import 'tabs/shifts_tab.dart';
+import 'tabs/volunteers_tab.dart';
 
 Future<void> main() async {
   runApp(
@@ -22,10 +23,12 @@ Future<void> main() async {
     prefs.setString(apiKeyPreferenceName, apiKey);
   }
   settings.apiKey = prefs.getString(apiKeyPreferenceName);
+  tabs['Shifts'] = ShiftsTab();
+  tabs['Branch Volunteers'] = const VolunteersTab('All Volunteers');
   return runApp(
     MaterialApp(
       title: appTitle,
-      home: const ShiftsView(ShiftsToLoad.relevant)
+      home: tabs.values.toList()[0],
     )
   );
 }

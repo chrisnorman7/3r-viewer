@@ -24,3 +24,11 @@ Future<http.Response> getJson(String url) {
     headers: getHeaders(),
   );
 }
+
+String errorFromCode(int code) {
+  String errorString = 'Error: $code.';
+  if (code == 403) {
+    errorString += ' The most likely cause of this error is an invalid API key. Try entering it again.';
+  }
+  return errorString;
+}
