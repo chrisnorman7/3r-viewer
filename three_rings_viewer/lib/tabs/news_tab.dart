@@ -63,8 +63,8 @@ class NewsTabState extends State<NewsTab> {
         itemBuilder: (BuildContext context, int index) {
           final News newsItem = newsItems[index];
           return ListTile(
-            title: Text(newsItem.title),
-            subtitle: Text(dateString(newsItem.date)),
+            title: Text(dateString(newsItem.date)),
+            subtitle: Text(newsItem.title),
             onTap: () => pushRoute(
               context, NewsView(newsItem)
             )
