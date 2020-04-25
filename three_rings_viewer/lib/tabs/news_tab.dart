@@ -64,6 +64,7 @@ class NewsTabState extends State<NewsTab> {
           final News newsItem = newsItems[index];
           return ListTile(
             title: Text(newsItem.title),
+            subtitle: Text(dateString(newsItem.date)),
             onTap: () => pushRoute(
               context, NewsView(newsItem)
             )
@@ -98,12 +99,14 @@ class NewsTabState extends State<NewsTab> {
             name: creator['name'] as String,
           );
         }
+        final DateTime date = DateTime.tryParse(newsData['created_at'] as String) ?? DateTime.now();
         newsItems.add(
           News(
             title: title,
             body: body,
             sticky: sticky,
-            creator: volunteers[volunteerId]
+            creator: volunteers[volunteerId],
+            date: date,
           )
         );
       }

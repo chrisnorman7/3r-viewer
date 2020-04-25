@@ -7,10 +7,12 @@ class News {
       this.body,
       this.sticky,
       this.creator,
+      this.date,
     }
   );
 
     String title, body;
     bool sticky;
     Volunteer creator;
+    DateTime date;
 }
