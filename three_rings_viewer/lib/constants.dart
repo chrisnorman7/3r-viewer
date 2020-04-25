@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'event.dart';
 import 'shift.dart';
 import 'volunteer.dart';
 
@@ -12,5 +13,6 @@ const String baseUrl = 'https://www.3r.org.uk';
 
 List<Shift> shifts;
 List<Volunteer> volunteers;
+List<Event> events;
 
 Map<String, Widget> tabs = <String, Widget>{};

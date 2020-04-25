@@ -32,3 +32,25 @@ String errorFromCode(int code) {
   }
   return errorString;
 }
+
+String dateString(DateTime when, {bool includeTime = false}) {
+  const List<String> monthNames = <String>[
+    'January',
+    'Febuary',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+  ];
+  String result = '${when.day} ${monthNames[when.month - 1]} ${when.year}';
+  if (includeTime) {
+    result += ' ${when.hour}:${when.minute}';
+  }
+  return result;
+}

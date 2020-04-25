@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'constants.dart';
 import 'loading_page.dart';
 import 'settings.dart';
+import 'tabs/events_tab.dart';
 import 'tabs/shifts_tab.dart';
 import 'tabs/volunteers_tab.dart';
 
@@ -24,7 +25,8 @@ Future<void> main() async {
   }
   settings.apiKey = prefs.getString(apiKeyPreferenceName);
   tabs['Shifts'] = ShiftsTab();
-  tabs['Branch Volunteers'] = const VolunteersTab('All Volunteers');
+  tabs['Volunteers'] = const VolunteersTab('All Volunteers');
+  tabs['Events'] = EventsTab();
   return runApp(
     MaterialApp(
       title: appTitle,
