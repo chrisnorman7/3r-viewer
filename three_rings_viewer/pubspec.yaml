@@ -26,6 +26,7 @@ dependencies:
   http:
   shared_preferences:
   url_launcher:
+  html_unescape:
 
 
   # The following adds the Cupertino Icons font to your application.

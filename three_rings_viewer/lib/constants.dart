@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'event.dart';
+import 'news.dart';
 import 'shift.dart';
 import 'volunteer.dart';
 
@@ -12,7 +13,8 @@ const String apiKeyFilename = 'api.key';
 const String baseUrl = 'https://www.3r.org.uk';
 
 List<Shift> shifts;
-List<Volunteer> volunteers;
+Map<int, Volunteer> volunteers;
 List<Event> events;
+List<News> newsItems;
 
 Map<String, Widget> tabs = <String, Widget>{};

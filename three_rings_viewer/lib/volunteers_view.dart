@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'constants.dart';
 import 'util.dart';
 import 'volunteer.dart';
 import 'volunteer_view.dart';
@@ -19,10 +18,7 @@ class VolunteersView extends StatelessWidget {
         final Volunteer volunteer = volunteers[index];
         return ListTile(
           title: Text(volunteer.name),
-          subtitle: Image.network(
-            '$baseUrl/directory/${volunteer.id}/photos/thumb.jpg',
-            headers: getHeaders(),
-          ),
+          subtitle: volunteer.image,
           onTap: () {
             pushRoute(context, VolunteerView(volunteer));
           }

@@ -111,7 +111,7 @@ class ShiftsTabState extends State<ShiftsTab> {
         itemBuilder: (BuildContext context, int index) {
           if (index == 0) {
             return Title(
-              child: Text('Showing ${_stl == ShiftsToLoad.today ? "today\'s" : "only relevant"} shifts'),
+              child: Text('Showing ${_stl == ShiftsToLoad.today ? "today\'s" : "Relevant"} shifts'),
               color: Colors.green,
             );
           }

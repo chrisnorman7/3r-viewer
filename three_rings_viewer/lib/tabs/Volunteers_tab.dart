@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import '../constants.dart';
-import '../menu_button.dart';
 import '../settings.dart';
 import '../util.dart';
 import '../volunteer.dart';
@@ -44,7 +43,6 @@ class VolunteersTabState extends State<VolunteersTab> {
     }
     return Scaffold(
       appBar: AppBar(
-        leading: MenuButton(),
         title: Text(title),
         actions: <Widget>[refreshButton],
       ),
@@ -66,7 +64,7 @@ class VolunteersTabState extends State<VolunteersTab> {
     } else if (volunteers.isEmpty) {
       return const Text('No volunteers to show.');
     } else {
-      return VolunteersView(volunteers);
+      return VolunteersView(volunteers.values.toList());
     }
   }
 
@@ -81,15 +79,13 @@ class VolunteersTabState extends State<VolunteersTab> {
         throw errorFromCode(r.statusCode);
       }
       final dynamic volunteersData = jsonDecode(r.body)['volunteers'];
-      volunteers = <Volunteer>[];
+      volunteers = <int, Volunteer>{};
       for (final dynamic data in volunteersData) {
         final int volunteerId = data['id'] as int;
         final String volunteerName = data['name'] as String;
-        volunteers.add(
-          Volunteer(
-            id: volunteerId,
-            name: volunteerName,
-          )
+        volunteers[volunteerId] = Volunteer(
+          id: volunteerId,
+          name: volunteerName,
         );
       }
     }

@@ -5,7 +5,6 @@ import 'package:http/http.dart' as http;
 
 import '../constants.dart';
 import '../event.dart';
-import '../menu_button.dart';
 import '../settings.dart';
 import '../util.dart';
 
@@ -36,7 +35,6 @@ class EventsTabState extends State<EventsTab> {
     }
     return Scaffold(
       appBar: AppBar(
-        leading: MenuButton(),
         title: const Text('Events'),
         actions: <Widget>[refreshButton],
       ),
