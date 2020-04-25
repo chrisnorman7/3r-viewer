@@ -150,7 +150,7 @@ class VolunteerViewState extends State<VolunteerView> {
           if (date == null) {
             detailValue = '!! Error while formatting DateTime !!';
           } else {
-            detailValue = date.toString();
+            detailValue = dateString(date);
           }
         } else if (detailType == DetailTypes.boolean) {
           detailValue = detailValue == '1' ? 'Yes' : 'No';
