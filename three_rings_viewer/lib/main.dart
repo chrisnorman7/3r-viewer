@@ -26,9 +26,9 @@ Future<void> main() async {
     prefs.setString(apiKeyPreferenceName, apiKey);
   }
   settings.apiKey = prefs.getString(apiKeyPreferenceName);
+  tabs['Volunteers'] = const VolunteersTab('All Volunteers');
   tabs['News'] = NewsTab();
   tabs['Events'] = EventsTab();
-  tabs['Volunteers'] = const VolunteersTab('All Volunteers');
   return runApp(
     MaterialApp(
       title: appTitle,
