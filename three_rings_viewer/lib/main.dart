@@ -26,14 +26,13 @@ Future<void> main() async {
     prefs.setString(apiKeyPreferenceName, apiKey);
   }
   settings.apiKey = prefs.getString(apiKeyPreferenceName);
-  tabs['Shifts'] = ShiftsTab();
   tabs['News'] = NewsTab();
   tabs['Volunteers'] = const VolunteersTab('All Volunteers');
   tabs['Events'] = EventsTab();
   return runApp(
     MaterialApp(
       title: appTitle,
-      home: tabs.values.toList()[0],
+      home: ShiftsTab(),
     )
   );
 }
