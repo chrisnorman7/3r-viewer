@@ -15,7 +15,7 @@ class RefreshableState<T> extends State {
     }
     Widget bodyWidget;
     if (settings.apiKey == null) {
-      bodyWidget = const Text('First enter your API key from the menu, then tap the "Refresh" button.');
+      bodyWidget = const Text('You must first enter your API key from the main menu.');
     } else if (refreshing) {
       bodyWidget = const Text('Loading...');
     } else if (itemsToShow() == null) {
