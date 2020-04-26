@@ -25,6 +25,11 @@ class VolunteersTabState extends RefreshableState<VolunteersTab> {
   String title;
 
   @override
+  Widget getTitle() {
+    return Text(title);
+  }
+
+  @override
   int itemsToShow() {
     return volunteers == null ? null : volunteers.length;
   }

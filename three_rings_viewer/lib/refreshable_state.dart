@@ -10,22 +10,24 @@ class RefreshableState<T> extends State {
 
   @override
   Widget build(BuildContext context) {
-    final DateTime now = DateTime.now();
-    if (lastRefreshed == null || lastRefreshed.difference(now).inHours >= 1 || itemsToShow() == null) {
+    if (!refreshing && (lastRefreshed == null || lastRefreshed.difference(DateTime.now()).inHours >= 1)) {
       refresh();
     }
     Widget bodyWidget;
     if (settings.apiKey == null) {
-      bodyWidget = Text(noApiKeyText);
+      bodyWidget = const Text('First enter your API key from the menu, then tap the "Refresh" button.');
     } else if (refreshing) {
-      bodyWidget = Text(loadingText);
+      bodyWidget = const Text('Loading...');
+    } else if (itemsToShow() == null) {
+      return const Text('Tap the "Refresh" button.');
     } else if (error != null) {
       bodyWidget = Text(error);
     } else if (itemsToShow() == 0) {
-      return const Text('Nothing to show.');
+      bodyWidget = const Text('Nothing to show.');
     } else {
       bodyWidget = getBodyWidget();
     }
+    refreshCallback = refresh;
     return Scaffold(
       appBar: AppBar(
         leading: getLeading(),
@@ -61,8 +63,10 @@ class RefreshableState<T> extends State {
     return const Text('To change this text, override RefreshableState.getBodyWidget.');
   }
 
+  @mustCallSuper
   void beforeRefresh() {
     setState(() {
+      error = null;
       refreshing = true;
     });
   }
@@ -71,10 +75,10 @@ class RefreshableState<T> extends State {
     throw UnimplementedError;
   }
 
-  void refresh() {
+  Future<void> refresh() async {
     beforeRefresh();
     try {
-      mainRefresh();
+      await mainRefresh();
     }
     catch(e) {
       error = e.toString();
@@ -88,6 +92,7 @@ class RefreshableState<T> extends State {
     }
   }
 
+  @mustCallSuper
   void afterRefresh() {
     lastRefreshed = DateTime.now();
     refreshing = false;

@@ -32,6 +32,9 @@ class ApiKeyFormState extends State<ApiKeyForm> {
                 final SharedPreferences prefs = await SharedPreferences.getInstance();
                 prefs.setString(apiKeyPreferenceName, apiKey);
                 Navigator.of(context).pop();
+                if (refreshCallback != null) {
+                  refreshCallback();
+                }
               }
             },
             child: const Text('Save'),
