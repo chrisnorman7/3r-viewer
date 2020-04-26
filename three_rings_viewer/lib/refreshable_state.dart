@@ -10,7 +10,8 @@ class RefreshableState<T> extends State {
 
   @override
   Widget build(BuildContext context) {
-    if (!refreshing && (lastRefreshed == null || lastRefreshed.difference(DateTime.now()).inHours >= 1)) {
+    final DateTime now = DateTime.now();
+    if (!refreshing && (lastRefreshed == null ||now.difference(lastRefreshed).inMinutes >= 1)) {
       refresh();
     }
     Widget bodyWidget;
