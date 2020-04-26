@@ -43,32 +43,18 @@ class ShiftsTabState extends RefreshableState<ShiftsTab> {
   @override
   List<Widget> getActions() {
     final List<Widget> actions = super.getActions();
-    final Map<String, ShiftsToLoad> menuItems = <String, ShiftsToLoad>{
-      'Relevant': ShiftsToLoad.relevant,
-      "Today's": ShiftsToLoad.today,
-    };
-    final PopupMenuButton<ShiftsToLoad> menuButton = PopupMenuButton<ShiftsToLoad>(
-      itemBuilder: (BuildContext context) {
-        final List<PopupMenuItem<ShiftsToLoad>> popupMenuItems = <PopupMenuItem<ShiftsToLoad>>[];
-        menuItems.forEach(
-          (String description, ShiftsToLoad value) => popupMenuItems.add(
-            PopupMenuItem<ShiftsToLoad>(
-              child: Text(description),
-              value: value,
-            )
-          )
-        );
-        return popupMenuItems;
+    final RaisedButton viewButton = RaisedButton(
+      child: Text(_stl == ShiftsToLoad.relevant? 'Today' : 'Relevant'),
+      onPressed: () {
+        if (_stl == ShiftsToLoad.today) {
+        _stl = ShiftsToLoad.relevant;
+      } else {
+        _stl = ShiftsToLoad.today;
+      }
+      refresh();
       },
-      onSelected: refreshing == true ? null : (ShiftsToLoad value) {
-        _stl = value;
-        refresh();
-      },
-      tooltip: 'Change View',
-      icon: Icon(Icons.settings),
-      enabled: !(refreshing == true),
     );
-    actions.insert(0, menuButton);
+    actions.insert(0, viewButton);
     return actions;
   }
 
