@@ -154,11 +154,12 @@ class ShiftsTabState extends State<ShiftsTab> {
       final List<Shift> currentShifts = <Shift>[];
       List<Shift> allDayShifts = <Shift>[], previousShifts = <Shift>[], nextShifts = <Shift>[];
       for (final dynamic shiftData in shiftsData) {
-        final DateTime shiftStart = DateTime.tryParse(shiftData['start_datetime'] as String);
+        DateTime shiftStart = DateTime.tryParse(shiftData['start_datetime'] as String);
         final int duration = shiftData['duration'] as int;
         if (shiftStart == null || duration == null) {
           continue;
         }
+        shiftStart = DateTime(shiftStart.year, shiftStart.month, shiftStart.day, shiftStart.hour, shiftStart.minute, shiftStart.second);
         final DateTime shiftEnd = shiftStart.add(Duration(seconds: duration));
         final List<Volunteer> volunteers = <Volunteer>[];
         for (final dynamic volunteerShiftData in shiftData['volunteer_shifts']) {
