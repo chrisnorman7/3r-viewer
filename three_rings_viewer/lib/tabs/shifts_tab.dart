@@ -87,9 +87,10 @@ class ShiftsTabState extends RefreshableState<ShiftsTab> {
   Future<void> mainRefresh() async {
     final DateTime now = DateTime.now();
     String url = '$baseUrl/shift.json';
-    final DateTime startDate = now.subtract(const Duration(days:1));
+    const int daysEitherSide = 3;
+    final DateTime startDate = now.subtract(const Duration(days:daysEitherSide));
     url = '$url?start_date=${getTimestamp(startDate)}';
-    final DateTime endDate = now.add(const Duration(days:1));
+    final DateTime endDate = now.add(const Duration(days:daysEitherSide));
     url = '$url&end_date=${getTimestamp(endDate)}';
     http.Response r;
     r = await getJson(url);
