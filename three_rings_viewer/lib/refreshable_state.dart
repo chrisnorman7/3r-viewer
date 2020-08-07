@@ -11,12 +11,15 @@ class RefreshableState<T> extends State {
   @override
   Widget build(BuildContext context) {
     final DateTime now = DateTime.now();
-    if (!refreshing && (lastRefreshed == null ||now.difference(lastRefreshed).inMinutes >= 1)) {
+    if (!refreshing &&
+        (lastRefreshed == null ||
+            now.difference(lastRefreshed).inMinutes >= 1)) {
       refresh();
     }
     Widget bodyWidget;
     if (settings.apiKey == null) {
-      bodyWidget = const Text('You must first enter your API key from the main menu.');
+      bodyWidget =
+          const Text('You must first enter your API key from the main menu.');
     } else if (refreshing) {
       bodyWidget = const Text('Loading...');
     } else if (itemsToShow() == null) {
@@ -30,13 +33,9 @@ class RefreshableState<T> extends State {
     }
     refreshCallback = refresh;
     return Scaffold(
-      appBar: AppBar(
-        leading: getLeading(),
-        title: getTitle(),
-        actions: getActions()
-      ),
-      body: bodyWidget
-    );
+        appBar: AppBar(
+            leading: getLeading(), title: getTitle(), actions: getActions()),
+        body: bodyWidget);
   }
 
   int itemsToShow() {
@@ -54,14 +53,15 @@ class RefreshableState<T> extends State {
   List<Widget> getActions() {
     final RaisedButton refreshButton = RaisedButton.icon(
       onPressed: refreshing == true ? null : refresh,
-      icon: Icon(Icons.refresh),
+      icon: const Icon(Icons.refresh),
       label: const Text('Refresh'),
     );
     return <Widget>[refreshButton];
   }
 
   Widget getBodyWidget() {
-    return const Text('To change this text, override RefreshableState.getBodyWidget.');
+    return const Text(
+        'To change this text, override RefreshableState.getBodyWidget.');
   }
 
   @mustCallSuper
@@ -80,11 +80,9 @@ class RefreshableState<T> extends State {
     beforeRefresh();
     try {
       await mainRefresh();
-    }
-    catch(e) {
+    } catch (e) {
       error = e.toString();
-    }
-    finally {
+    } finally {
       if (mounted) {
         setState(() => afterRefresh());
       } else {

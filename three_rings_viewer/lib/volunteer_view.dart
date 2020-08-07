@@ -20,13 +20,11 @@ enum DetailTypes {
 }
 
 class VolunteerDetail {
-  VolunteerDetail(
-    {
-      this.name,
-      this.type,
-      this.value,
-    }
-  );
+  VolunteerDetail({
+    this.name,
+    this.type,
+    this.value,
+  });
 
   final String name, value;
   DetailTypes type;
@@ -70,7 +68,7 @@ class VolunteerViewState extends State<VolunteerView> {
           if (index == 0) {
             return FloatingActionButton(
               onPressed: () => launch('$baseUrl/directory/${volunteer.id}'),
-              child: Icon(Icons.contacts),
+              child: const Icon(Icons.contacts),
               tooltip: 'Open in 3 Rings',
             );
           }
@@ -91,21 +89,20 @@ class VolunteerViewState extends State<VolunteerView> {
             title: Text(detail.name),
             subtitle: Text(detail.value),
             trailing: Icon(icon),
-            onTap: url == null? null : () => launch(url),
+            onTap: url == null ? null : () => launch(url),
           );
         },
       );
     }
     return Scaffold(
       appBar: AppBar(title: Text(volunteer.name)),
-      body: Center(
-        child: child
-      ),
+      body: Center(child: child),
     );
   }
 
   Future<void> loadDetails() async {
-    final String url = '$baseUrl/directory/${volunteer.id}.toString()?format=json';
+    final String url =
+        '$baseUrl/directory/${volunteer.id}.toString()?format=json';
     final http.Response r = await getJson(url);
     details = <VolunteerDetail>[];
     if (r.statusCode != 200) {
@@ -118,7 +115,7 @@ class VolunteerViewState extends State<VolunteerView> {
       final dynamic volunteerProperties = volunteerData['volunteer_properties'];
       for (final dynamic entry in volunteerProperties) {
         DetailTypes detailType;
-        switch(entry['type'] as String) {
+        switch (entry['type'] as String) {
           case 'EmailProperty':
             detailType = DetailTypes.email;
             break;
@@ -155,18 +152,20 @@ class VolunteerViewState extends State<VolunteerView> {
         } else if (detailType == DetailTypes.boolean) {
           detailValue = detailValue == '1' ? 'Yes' : 'No';
         }
-        if (<DetailTypes>[DetailTypes.date, DetailTypes.phone, DetailTypes.email, DetailTypes.text].contains(detailType)) {
-          details.add(
-            VolunteerDetail(
-              name: detailName,
-              type: detailType,
-              value: detailValue,
-            )
-          );
+        if (<DetailTypes>[
+          DetailTypes.date,
+          DetailTypes.phone,
+          DetailTypes.email,
+          DetailTypes.text
+        ].contains(detailType)) {
+          details.add(VolunteerDetail(
+            name: detailName,
+            type: detailType,
+            value: detailValue,
+          ));
         }
       }
     }
-    setState(() {
-    });
+    setState(() {});
   }
 }

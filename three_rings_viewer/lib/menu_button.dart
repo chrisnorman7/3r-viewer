@@ -11,25 +11,20 @@ class MenuButton extends StatelessWidget {
     final Map<String, Widget> menuItems = <String, Widget>{
       '${settings.apiKey == null ? "Set" : "Change"} API Key': ApiKeyForm(),
     };
-    tabs.forEach(
-      (String name, Widget tab) => menuItems[name] = tab
-    );
+    tabs.forEach((String name, Widget tab) => menuItems[name] = tab);
     return PopupMenuButton<Widget>(
-      icon: Icon(Icons.settings),
-      tooltip: 'Menu',
-      itemBuilder: (BuildContext context) {
-        final List<PopupMenuItem<Widget>> popupMenuItems = <PopupMenuItem<Widget>>[];
-        menuItems.forEach(
-          (String name, Widget widget) => popupMenuItems.add(
-            PopupMenuItem<Widget>(
-              child: Text(name),
-              value: widget,
-            )
-          )
-        );
-        return popupMenuItems;
-      },
-      onSelected: (Widget widget) => pushRoute(context, widget)
-    );
+        icon: const Icon(Icons.settings),
+        tooltip: 'Menu',
+        itemBuilder: (BuildContext context) {
+          final List<PopupMenuItem<Widget>> popupMenuItems =
+              <PopupMenuItem<Widget>>[];
+          menuItems.forEach((String name, Widget widget) =>
+              popupMenuItems.add(PopupMenuItem<Widget>(
+                child: Text(name),
+                value: widget,
+              )));
+          return popupMenuItems;
+        },
+        onSelected: (Widget widget) => pushRoute(context, widget));
   }
 }
