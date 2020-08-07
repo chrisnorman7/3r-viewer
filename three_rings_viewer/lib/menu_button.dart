@@ -8,10 +8,10 @@ import 'util.dart';
 class MenuButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final Map<String, Widget> menuItems = <String, Widget>{
-      '${settings.apiKey == null ? "Set" : "Change"} API Key': ApiKeyForm(),
-    };
+    final Map<String, Widget> menuItems = <String, Widget>{};
     tabs.forEach((String name, Widget tab) => menuItems[name] = tab);
+    menuItems['${settings.apiKey == null ? "Set" : "Change"} API Key'] =
+        ApiKeyForm();
     return PopupMenuButton<Widget>(
         icon: const Icon(Icons.settings),
         tooltip: 'Menu',
