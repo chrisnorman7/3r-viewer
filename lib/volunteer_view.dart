@@ -32,47 +32,47 @@ class VolunteerDetail {
 
 class VolunteerView extends StatefulWidget {
   @override
-  const VolunteerView(this.volunteer);
+  const VolunteerView(this._volunteer);
 
-  final Volunteer volunteer;
+  final Volunteer _volunteer;
 
   @override
-  VolunteerViewState createState() => VolunteerViewState(volunteer);
+  VolunteerViewState createState() => VolunteerViewState(_volunteer);
 }
 
 class VolunteerViewState extends State<VolunteerView> {
   @override
-  VolunteerViewState(this.volunteer);
+  VolunteerViewState(this._volunteer);
 
-  final Volunteer volunteer;
+  final Volunteer _volunteer;
   String _error;
-  List<VolunteerDetail> details;
+  List<VolunteerDetail> _details;
 
   @override
   void initState() {
-    loadDetails();
     super.initState();
+    loadDetails();
   }
 
   @override
   Widget build(BuildContext context) {
     Widget child;
-    if (details == null) {
+    if (_details == null) {
       child = const Text('Loading details...');
     } else if (_error != null) {
       child = Text(_error);
     } else {
       child = ListView.builder(
-        itemCount: details.length + 1,
+        itemCount: _details.length + 1,
         itemBuilder: (BuildContext context, int index) {
           if (index == 0) {
             return FloatingActionButton(
-              onPressed: () => launch('$baseUrl/directory/${volunteer.id}'),
+              onPressed: () => launch('$baseUrl/directory/${_volunteer.id}'),
               child: const Icon(Icons.contacts),
               tooltip: 'Open in 3 Rings',
             );
           }
-          final VolunteerDetail detail = details[index - 1];
+          final VolunteerDetail detail = _details[index - 1];
           String url = detail.value.replaceAll(' ', '');
           IconData icon;
           if (detail.type == DetailTypes.email) {
@@ -86,25 +86,25 @@ class VolunteerViewState extends State<VolunteerView> {
             icon = Icons.contacts;
           }
           return ListTile(
+            leading: Icon(icon),
             title: Text(detail.name),
             subtitle: Text(detail.value),
-            trailing: Icon(icon),
             onTap: url == null ? null : () => launch(url),
           );
         },
       );
     }
     return Scaffold(
-      appBar: AppBar(title: Text(volunteer.name)),
+      appBar: AppBar(title: Text(_volunteer.name)),
       body: Center(child: child),
     );
   }
 
   Future<void> loadDetails() async {
     final String url =
-        '$baseUrl/directory/${volunteer.id}.toString()?format=json';
+        '$baseUrl/directory/${_volunteer.id}.toString()?format=json';
     final http.Response r = await getJson(url);
-    details = <VolunteerDetail>[];
+    _details = <VolunteerDetail>[];
     if (r.statusCode != 200) {
       _error = 'Error ${r.statusCode}.';
       if (r.statusCode == 404) {
@@ -158,7 +158,7 @@ class VolunteerViewState extends State<VolunteerView> {
           DetailTypes.email,
           DetailTypes.text
         ].contains(detailType)) {
-          details.add(VolunteerDetail(
+          _details.add(VolunteerDetail(
             name: detailName,
             type: detailType,
             value: detailValue,

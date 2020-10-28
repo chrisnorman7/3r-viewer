@@ -10,23 +10,23 @@ import '../volunteer.dart';
 import '../volunteers_view.dart';
 
 class VolunteersTab extends StatefulWidget {
-  const VolunteersTab(this.title): super();
+  const VolunteersTab(this._title) : super();
 
-  final String title;
+  final String _title;
 
   @override
-  VolunteersTabState createState() => VolunteersTabState(title);
+  VolunteersTabState createState() => VolunteersTabState(_title);
 }
 
 class VolunteersTabState extends RefreshableState<VolunteersTab> {
   @override
-  VolunteersTabState(this.title): super();
+  VolunteersTabState(this._title) : super();
 
-  String title;
+  String _title;
 
   @override
   Widget getTitle() {
-    return Text(title);
+    return Text(_title);
   }
 
   @override

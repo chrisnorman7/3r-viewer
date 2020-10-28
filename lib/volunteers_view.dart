@@ -12,18 +12,32 @@ class VolunteersView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return OrientationBuilder(
-        builder: (BuildContext context, Orientation orientation) =>
-            GridView.count(
-              crossAxisCount: orientation == Orientation.landscape ? 5 : 4,
-              children: volunteers
-                  .map((Volunteer volunteer) => GridTile(
-                      header: Text(volunteer.name),
-                      child: InkResponse(
-                          child: volunteer.image,
-                          onTap: () =>
-                              pushRoute(context, VolunteerView(volunteer)))))
-                  .toList(),
-            ));
+    if (volunteers.length > 4) {
+      return OrientationBuilder(
+          builder: (BuildContext context, Orientation orientation) =>
+              GridView.count(
+                crossAxisCount: orientation == Orientation.landscape ? 5 : 4,
+                children: volunteers
+                    .map((Volunteer volunteer) => GridTile(
+                        header: Text(volunteer.name),
+                        child: InkResponse(
+                            child: volunteer.image,
+                            onTap: () =>
+                                pushRoute(context, VolunteerView(volunteer)))))
+                    .toList(),
+              ));
+    } else {
+      return ListView.builder(
+        itemCount: volunteers.length,
+        itemBuilder: (BuildContext context, int index) {
+          final Volunteer volunteer = volunteers[index];
+          return ListTile(
+            title: Text(volunteer.name),
+            subtitle: volunteer.image,
+            onTap: () => pushRoute(context, VolunteerView(volunteer)),
+          );
+        },
+      );
+    }
   }
 }
