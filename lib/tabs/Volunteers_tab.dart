@@ -22,7 +22,7 @@ class VolunteersTabState extends RefreshableState<VolunteersTab> {
   @override
   VolunteersTabState(this._title) : super();
 
-  String _title;
+  final String _title;
 
   @override
   Widget getTitle() {
