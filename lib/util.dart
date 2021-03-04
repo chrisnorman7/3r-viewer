@@ -20,7 +20,7 @@ Map<String, String> getHeaders() {
 
 Future<http.Response> getJson(String url) {
   return http.get(
-    Uri.dataFromString(url),
+    Uri.parse(url),
     headers: getHeaders(),
   );
 }
