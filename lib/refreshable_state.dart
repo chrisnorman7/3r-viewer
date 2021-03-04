@@ -51,10 +51,10 @@ class RefreshableState<T> extends State {
   }
 
   List<Widget> getActions() {
-    final RaisedButton refreshButton = RaisedButton.icon(
+    final IconButton refreshButton = IconButton(
       onPressed: refreshing == true ? null : refresh,
       icon: const Icon(Icons.refresh),
-      label: const Text('Refresh'),
+      tooltip: 'Refresh',
     );
     return <Widget>[refreshButton];
   }

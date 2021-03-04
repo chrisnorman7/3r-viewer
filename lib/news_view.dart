@@ -21,9 +21,9 @@ class NewsView extends StatelessWidget {
         itemCount: lines.length + 1,
         itemBuilder: (BuildContext context, int index) {
           if (index == 0) {
-            return RaisedButton.icon(
+            return IconButton(
               icon: _news.creator.image,
-              label: Text('Created by ${_news.creator.name}'),
+              tooltip: 'Created by ${_news.creator.name}',
               onPressed: () => pushRoute(context, VolunteerView(_news.creator)),
             );
           }

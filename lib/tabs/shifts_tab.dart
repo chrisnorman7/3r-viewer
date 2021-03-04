@@ -44,7 +44,7 @@ class ShiftsTabState extends RefreshableState<ShiftsTab> {
   @override
   List<Widget> getActions() {
     final List<Widget> actions = super.getActions();
-    final RaisedButton viewButton = RaisedButton(
+    final viewButton = FloatingActionButton(
       child: Text(_stl == ShiftsToLoad.relevant ? 'Today' : 'Relevant'),
       onPressed: () {
         if (_stl == ShiftsToLoad.today) {
